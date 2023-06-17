@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 /**
- * main -Entry point
+ * main - Entry point
  *
  * Description: Print values of n status:
  *              greater than, is zero and is not less than 6
