@@ -1,49 +1,82 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
-* is_sep - check if a char is a seperator.
-* @s: the char to test.
-*
-* Return: 1 if seperator is found else 0
+ * isPrintableASCII - determines if n is ASCII
+ * @n: integer
+ * Return: 1 if true 0 if false
 */
-int is_sep(char s)
+
+int isPrintableASCII(int n)
 {
-	char sep[] = {'\t', '\n', ' ', ',', ';', '!',
-		      '.', '?', '\"', '(', ')', '{', '}'};
+	return (n >= 32 && n <= 126);
+}
+
+/**
+ * printHexes - print hex values
+ * @b: string
+ * @start: start position
+ * @end: end poition
+*/
+
+void printHexes(char *b, int start, int end)
+{
 	int i = 0;
 
-	while (sep[i] != '\0')
+	while (i < 10)
 	{
-		if (s == sep[i])
-			return (1);
+		if (i < end)
+			printf("%02x", *(b + start + i));
+		else
+			printf(" ");
+		if (i % 2)
+			printf(" ");
 		i++;
 	}
-	return (0);
 }
 
 /**
-* cap_string - This function capitalizes all words of a string.
-* @s: sring to be processed.
-*
-* Return: pointer to the modified string.
+ * printASCII - print ascii values
+ * @b: string to print
+ * @start: start position
+ * @end: end position
 */
-char *cap_string(char *s)
+
+void printASCII(char *b, int start, int end)
 {
-	int sep, i;
+	int ch, i = 0;
 
-	sep = 1;
-	i = 0;
-	while (s[i] != '\0')
+	while (i < end)
 	{
-		if (sep == 1 && (s[i] >= 'a' && s[i] <= 'z'))
-		{
-			s[i] -= 32;
-			sep = 0;
-		}
-		sep = is_sep(s[i]);
+		ch = *(b + i + start);
+		if (!isPrintableASCII(ch))
+			ch = 46;
+		printf("%c", ch);
 		i++;
-}
-	return (s);
+	}
 }
 
+/**
+ * print_buffer - print buffer
+ * @b: dtring
+ * @size: size of buffer
+*/
 
+void print_buffer(char *b, int size)
+{
+	int start, end;
+
+	if (size > 0)
+	{
+		for (start = 0; start < size; start += 10)
+		{
+			end = (size - start < 10) ? size - start : 10;
+			printf("%08x: ", start);
+			printHexes(b, start, end);
+			printASCII(b, start, end);
+			printf("\n");
+		}
+	}
+	else
+		printf("\n");
+}
