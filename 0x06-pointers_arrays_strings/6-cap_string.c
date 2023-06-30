@@ -1,35 +1,59 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
- * cap_string - capitalizes all words of a string
- * @str: The string to be capitalizes.
- * Return: A pointer to the changed string
+ * isLower - determine wether ascii is lower
+ * @c: character
+ * Return: 1 if true, 0 if false
 */
 
-char *cap_string(char *str)
+int isLower(char c)
 {
-	int index = 0;
+	return (c >= 97 && c <= 122);
+}
 
-	while (str[index])
+/**
+ * isDelimiter - determines wether ascii is delemiter
+ * @c: character
+ * Return: 1 if true and 0 if fails
+*/
+
+int isDelimiter(char c)
+{
+	int i;
+	char delemiter[] = "\t\n,.!?\"(){}";
+
+	for (i = 0; i < 12; i++)
 	{
-		while (!(str[index] >= 'a' && str[index] <= 'z'))
-			index++;
-		if (str[index - 1] == ' ' ||
-		str[index - 1] == '\t' ||
-		str[index - 1] == '\n' ||
-		str[index - 1] == ',' ||
-		str[index - 1] == ';' ||
-		str[index - 1] == '.' ||
-		str[index - 1] == '!' ||
-		str[index - 1] == '?' ||
-		str[index - 1] == '"' ||
-		str[index - 1] == '(' ||
-		str[index - 1] == ')' ||
-		str[index - 1] == '{' ||
-		str[index - 1] == '}' ||
-		index == 0)
-			str[index] -= 32;
-		index++;
+		if (c == delimiter[i])
+			return (i);
 	}
-	return (str);
+	return (0);
+}
+
+/**
+ * cap_string - capitalize all words of a string
+ * @s: input string
+ * Return: string with capitalize words
+*/
+
+char *cap_string(char *s)
+{
+	char *ptr = s;
+	int foundDelimit = 1;
+
+	while (*str)
+	{
+		if (isDelimiter(*s))
+			foundDelimit = 1;
+		else if (isLower(*s) && foundDelimit)
+		{
+			*s -= 32;
+			foundDelimit = 0;
+		}
+		else
+			foundDelimit = 0;
+		s++;
+	}
+	return (ptr);
 }
